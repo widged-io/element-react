@@ -1,0 +1,43 @@
+{
+    "name": "@widged.io/element-react",
+    "version": "1.0.0",
+    "description": "React wrapper for widged.io elements",
+    "type": "module",
+    "keywords": [
+        "widged",
+        "react",
+        "element"
+    ],
+    "author": {
+        "name": "widged.io team",
+        "email": "hello@widged.io",
+        "site": "https://widged.io/"
+    },
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc"
+    },
+    "types": "build/index.d.ts",
+    "files": [
+        "src"
+    ],
+    "exports": {
+        ".": "./build/index.js"
+    },
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+    },
+    "peerDependencies": {
+        "react": ">= 16.8"
+    },
+    "devDependencies": {
+        "@types/react": "18.3.16",
+        "typescript": "5.7.3"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/widged-io/element-react"
+    },
+    "homepage": "https://widged.io"
+}
