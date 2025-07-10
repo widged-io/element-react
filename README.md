@@ -39,6 +39,6 @@ interface WidgetElementProps {
 }
 ```
 
-### Using with Preact
+## Using with Preact
 
 The component is also fully compatible with [preact](https://preactjs.com/). To use it, configure `preact/compat` with an alias in your build tool.
