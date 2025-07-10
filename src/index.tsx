@@ -4,6 +4,7 @@ declare global {
     namespace JSX {
         interface IntrinsicElements {
             ['widged-element']: {
+                key?: string;
                 children?: never;
                 'widget-id': string;
                 'lazy-load'?: boolean;
@@ -37,5 +38,7 @@ export const WidgetElement: FC<WidgetElementProps> = ({ widgetdId, lazyLoad, deb
         document.body.appendChild(script);
     }, []);
 
-    return <widged-element widget-id={widgetdId} lazy-load={lazyLoad} debug={debug}></widged-element>;
+    const key = `${widgetdId}-${lazyLoad}-${debug}`;
+
+    return <widged-element key={key} widget-id={widgetdId} lazy-load={lazyLoad} debug={debug}></widged-element>;
 }
