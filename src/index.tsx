@@ -1,4 +1,5 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useRef } from 'react';
+import { logger } from './logger.js';
 
 declare global {
     namespace JSX {
@@ -8,8 +9,9 @@ declare global {
                 children?: never;
                 'widget-id': string;
                 'lazy-load'?: boolean;
-                'debug'?: boolean;
-            }
+                debug?: boolean;
+                pixel?: boolean;
+            };
         }
     }
 }
@@ -18,9 +20,11 @@ export interface WidgetElementProps {
     widgetdId: string;
     lazyLoad?: boolean;
     debug?: boolean;
+    pixel?: boolean;
+    data?: Record<string, string>;
 }
 
-export const WidgetElement: FC<WidgetElementProps> = ({ widgetdId, lazyLoad, debug }) => {
+export const WidgetElement: FC<WidgetElementProps> = ({ widgetdId, lazyLoad, debug, data, pixel }) => {
     useEffect(() => {
         const existing = document.querySelector('script[data-widged]');
 
@@ -38,7 +42,34 @@ export const WidgetElement: FC<WidgetElementProps> = ({ widgetdId, lazyLoad, deb
         document.body.appendChild(script);
     }, []);
 
-    const key = `${widgetdId}-${lazyLoad}-${debug}`;
+    const dataEntries = Object.entries(data || {})
+        .filter(([key]) => key.startsWith('data-'))
+        .sort((a, b) => a[0].localeCompare(b[0]));
 
-    return <widged-element key={key} widget-id={widgetdId} lazy-load={lazyLoad} debug={debug}></widged-element>;
-}
+    const mappedData = dataEntries.reduce((acc, [key, value]) => {
+        acc[key] = value;
+
+        return acc;
+    }, {} as Record<string, string>);
+
+    const key = `widget-id=${widgetdId};lazy-load=${lazyLoad};debug=${debug};pixel=${pixel};${dataEntries
+        .map(([key, value]) => `${key}=${value}`)
+        .join(';')}`;
+
+    useEffect(() => {
+        if (debug) {
+            logger.debug(widgetdId, 'Rendering key changed', { key });
+        }
+    }, [key]);
+
+    return (
+        <widged-element
+            {...mappedData}
+            key={key}
+            pixel={pixel}
+            widget-id={widgetdId}
+            lazy-load={lazyLoad}
+            debug={debug}
+        ></widged-element>
+    );
+};
