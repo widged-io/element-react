@@ -36,6 +36,8 @@ interface WidgetElementProps {
     widgetdId: string;  // ID of widget
     debug?: boolean; // Should run in debug mode (more logs)
     lazyLoad?: boolean; // Should the script be loaded lazily (more details: https://docs.widged.io/publishing)
+    pixel?: boolean; // Should hide standard loading state and error state
+    data?: Record<`data-${string}`, string>; // Mapped data-* attributes
 }
 ```
 

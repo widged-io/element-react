@@ -21,7 +21,7 @@ export interface WidgetElementProps {
     lazyLoad?: boolean;
     debug?: boolean;
     pixel?: boolean;
-    data?: Record<string, string>;
+    data?: Record<`data-${string}`, string>;
 }
 
 export const WidgetElement: FC<WidgetElementProps> = ({ widgetdId, lazyLoad, debug, data, pixel }) => {
